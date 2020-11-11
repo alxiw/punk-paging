@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">Punk Paging</string>
+  <string name="dialog_ok">OK</string>
+  <string name="text_retry">Retry</string>
+  <string name="search_label">Search</string>
+  <string name="search_hint">Search</string>
+  <string name="beers_empty">No beers</string>
+</resources>
