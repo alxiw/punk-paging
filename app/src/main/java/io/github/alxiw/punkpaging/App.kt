@@ -2,21 +2,29 @@ package io.github.alxiw.punkpaging
 
 import android.app.Application
 import android.content.Context
-import androidx.paging.ExperimentalPagingApi
 import com.facebook.stetho.Stetho
 import io.github.alxiw.punkpaging.di.component.AppComponent
 import io.github.alxiw.punkpaging.di.component.DaggerAppComponent
 import io.github.alxiw.punkpaging.di.module.AppModule
+import timber.log.Timber
+import timber.log.Timber.DebugTree
 
-@ExperimentalPagingApi
 class App : Application() {
 
     lateinit var appComponent: AppComponent
 
     override fun onCreate() {
         super.onCreate()
+        initTimber()
         initStetho()
         appComponent = initDagger(this)
+    }
+
+    private fun initTimber() {
+        if (!BuildConfig.DEBUG) {
+            return
+        }
+        Timber.plant(DebugTree())
     }
 
     private fun initStetho() {

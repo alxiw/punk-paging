@@ -53,15 +53,24 @@
             android:gravity="center"
             android:text="@string/beers_empty"
             android:textSize="24sp"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <ProgressBar
             android:id="@+id/beers_progress_bar"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginBottom="?attr/actionBarSize"
-            android:visibility="visible"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/retry_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="?attr/actionBarSize"
+            android:text="@string/text_retry"
+            android:layout_gravity="center"
+            android:visibility="gone" />
 
     </FrameLayout>
 

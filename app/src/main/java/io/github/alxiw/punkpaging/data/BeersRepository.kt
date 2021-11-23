@@ -10,8 +10,9 @@ import io.github.alxiw.punkpaging.data.model.Beer
 import io.github.alxiw.punkpaging.data.db.PunkDatabase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class BeersRepository(
+class BeersRepository @Inject constructor(
     private val api: PunkApi,
     private val database: PunkDatabase,
     private val prefs: SharedPreferences

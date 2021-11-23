@@ -11,9 +11,8 @@ import io.github.alxiw.punkpaging.data.db.keys.RemoteKey
 import io.github.alxiw.punkpaging.data.model.Beer
 import retrofit2.HttpException
 import java.io.IOException
-import java.io.InvalidObjectException
 
-@OptIn(ExperimentalPagingApi::class)
+@ExperimentalPagingApi
 class BeersRemoteMediator(
     private val query: String?,
     private val api: PunkApi,
@@ -29,26 +28,23 @@ class BeersRemoteMediator(
             }
             LoadType.PREPEND -> {
                 val remoteKey = getRemoteKeyForFirstItem(state)
-                ?: throw InvalidObjectException("Remote key and the prevKey should not be null")
-                // The LoadType is PREPEND so some data was loaded before,
-                // so we should have been able to get remote keys
-                // If the remoteKeys are null, then we're an invalid state and we have a bug
-                // If the previous key is null, then we can't request more data
-                if (remoteKey.prevKey == null) {
-                    return MediatorResult.Success(endOfPaginationReached = true)
-                }
-                remoteKey.prevKey
+                // If remoteKeys is null, that means the refresh result is not in the database yet.
+                // We can return Success with `endOfPaginationReached = false` because Paging
+                // will call this method again if RemoteKeys becomes non-null.
+                // If remoteKeys is NOT NULL but its prevKey is null, that means we've reached
+                // the end of pagination for prepend.
+                val prevKey = remoteKey?.prevKey ?: return MediatorResult.Success(endOfPaginationReached = remoteKey != null)
+                prevKey
             }
             LoadType.APPEND -> {
                 val remoteKeys = getRemoteKeyForLastItem(state)
-                if (remoteKeys?.nextKey == null) {
-                    val remoteKey = getRemoteKeyClosestToCurrentPosition(state)
-                    //return MediatorResult.Error(InvalidObjectException("Remote key should not be null for $loadType"))
-                    //throw InvalidObjectException("Remote key should not be null for $loadType")
-                    remoteKey?.nextKey?.minus(1) ?: STARTING_PAGE_INDEX
-                } else {
-                    remoteKeys.nextKey
-                }
+                // If remoteKeys is null, that means the refresh result is not in the database yet.
+                // We can return Success with `endOfPaginationReached = false` because Paging
+                // will call this method again if RemoteKeys becomes non-null.
+                // If remoteKeys is NOT NULL but its prevKey is null, that means we've reached
+                // the end of pagination for append.
+                val nextKey = remoteKeys?.nextKey ?: return MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
+                nextKey
             }
         }
 

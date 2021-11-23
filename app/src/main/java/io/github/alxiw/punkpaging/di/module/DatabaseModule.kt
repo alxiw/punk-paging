@@ -6,6 +6,7 @@ import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import io.github.alxiw.punkpaging.data.db.PunkDatabase
+import io.github.alxiw.punkpaging.di.annotations.ApplicationContext
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -23,13 +24,13 @@ class DatabaseModule {
 
     @Provides
     @Singleton
-    fun providesPunkDatabase(@Named(DB_NAME) dbName: String, app: Context): PunkDatabase {
+    fun providesPunkDatabase(@Named(DB_NAME) dbName: String, @ApplicationContext app: Context): PunkDatabase {
         return Room.databaseBuilder(app, PunkDatabase::class.java, dbName).build()
     }
 
     @Provides
     @Singleton
-    fun provideSharedPreference(context: Context): SharedPreferences {
+    fun provideSharedPreference(@ApplicationContext context: Context): SharedPreferences {
         return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
     }
 }

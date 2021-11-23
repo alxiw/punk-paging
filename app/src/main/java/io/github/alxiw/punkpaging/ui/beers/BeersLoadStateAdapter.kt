@@ -12,22 +12,22 @@ import androidx.recyclerview.widget.RecyclerView
 import io.github.alxiw.punkpaging.R
 import io.github.alxiw.punkpaging.databinding.ItemLoadingStateBinding
 
-class BeersLoadingAdapter(
+class BeersLoadStateAdapter(
     private val retry: () -> Unit
-) : LoadStateAdapter<BeersLoadingAdapter.LoadingStateViewHolder>() {
+) : LoadStateAdapter<BeersLoadStateAdapter.LoadStateViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         loadState: LoadState
-    ): LoadingStateViewHolder {
-        return LoadingStateViewHolder.create(parent, retry)
+    ): LoadStateViewHolder {
+        return LoadStateViewHolder.create(parent, retry)
     }
 
-    override fun onBindViewHolder(holder: LoadingStateViewHolder, loadState: LoadState) {
+    override fun onBindViewHolder(holder: LoadStateViewHolder, loadState: LoadState) {
         holder.bindState(loadState)
     }
 
-    class LoadingStateViewHolder(
+    class LoadStateViewHolder(
         binding: ItemLoadingStateBinding,
         retry: () -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
@@ -52,13 +52,13 @@ class BeersLoadingAdapter(
         }
 
         companion object {
-            fun create(parent: ViewGroup, retry: () -> Unit): LoadingStateViewHolder {
+            fun create(parent: ViewGroup, retry: () -> Unit): LoadStateViewHolder {
                 val view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.item_loading_state,  parent,false)
 
                 val binding = ItemLoadingStateBinding.bind(view)
 
-                return LoadingStateViewHolder(
+                return LoadStateViewHolder(
                     binding,
                     retry
                 )
