@@ -93,7 +93,7 @@ dependencies {
     // log
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
     implementation("com.jakewharton.timber:timber:5.0.1")
-    
+
     // debug
     debugImplementation("com.facebook.stetho:stetho-okhttp3:1.6.0")
     debugImplementation("com.readystatesoftware.chuck:library:1.1.0")
