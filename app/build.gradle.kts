@@ -79,10 +79,7 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:${Versions.retrofit}")
     implementation("com.squareup.retrofit2:converter-gson:${Versions.retrofit}")
     implementation("com.squareup.retrofit2:retrofit-mock:${Versions.retrofit}")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
-    implementation("com.facebook.stetho:stetho-okhttp3:1.6.0")
     implementation("com.squareup.picasso:picasso:2.71828")
-    debugImplementation("com.readystatesoftware.chuck:library:1.1.0")
 
     // db
     implementation("androidx.room:room-runtime:${Versions.room}")
@@ -92,5 +89,12 @@ dependencies {
 
     // util
     implementation("com.jakewharton.threetenabp:threetenabp:1.3.1")
+
+    // log
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
     implementation("com.jakewharton.timber:timber:5.0.1")
+    
+    // debug
+    debugImplementation("com.facebook.stetho:stetho-okhttp3:1.6.0")
+    debugImplementation("com.readystatesoftware.chuck:library:1.1.0")
 }
