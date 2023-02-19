@@ -33,7 +33,7 @@ class BeersRemoteMediator(
                 // will call this method again if RemoteKeys becomes non-null.
                 // If remoteKeys is NOT NULL but its prevKey is null, that means we've reached
                 // the end of pagination for prepend.
-                val prevKey = remoteKey?.prevKey ?: return MediatorResult.Success(endOfPaginationReached = remoteKey != null)
+                val prevKey = remoteKey?.prevKey ?: return MediatorResult.Success(remoteKey != null)
                 prevKey
             }
             LoadType.APPEND -> {
@@ -43,24 +43,30 @@ class BeersRemoteMediator(
                 // will call this method again if RemoteKeys becomes non-null.
                 // If remoteKeys is NOT NULL but its prevKey is null, that means we've reached
                 // the end of pagination for append.
-                val nextKey = remoteKeys?.nextKey ?: return MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
+                val nextKey = remoteKeys?.nextKey ?: return MediatorResult.Success(remoteKeys != null)
                 nextKey
             }
         }
 
-        try {
-            val beers = if (query.isNullOrEmpty()) {
-                api.fetchBeers(null, page, state.config.pageSize)
-            } else {
-                api.fetchBeers(query, page, state.config.pageSize)
-            }
+        return try {
+            val name = if (query.isNullOrEmpty()) null else query
+            val beers = api.fetchBeers(
+                beerName = name,
+                page = page,
+                pageSize = state.config.pageSize
+            )
             val endOfPaginationReached = beers.isEmpty()
-            insertIntoDatabase(page, loadType, beers, endOfPaginationReached)
-            return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
+            insertIntoDatabase(
+                page = page,
+                loadType = loadType,
+                beers = beers,
+                endOfPaginationReached = endOfPaginationReached
+            )
+            MediatorResult.Success(endOfPaginationReached)
         } catch (exception: IOException) {
-            return MediatorResult.Error(exception)
+            MediatorResult.Error(exception)
         } catch (exception: HttpException) {
-            return MediatorResult.Error(exception)
+            MediatorResult.Error(exception)
         }
     }
 
