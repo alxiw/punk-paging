@@ -21,10 +21,8 @@ class BeersRepository @Inject constructor(
     fun fetchBeers(query: String?): Flow<PagingData<Beer>> {
         return Pager(
                 config = PagingConfig(
-                        pageSize = 30,
-                        enablePlaceholders = false,
-                        prefetchDistance = 2,
-                        initialLoadSize = 1
+                        pageSize = 80,
+                        enablePlaceholders = false
                 ),
                 remoteMediator = BeersRemoteMediator(
                         if (query.isNullOrEmpty()) null else query.replace(' ', '_'),

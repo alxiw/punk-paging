@@ -1,19 +1,15 @@
 package io.github.alxiw.punkpaging.di.module
 
-import android.content.Context
-import android.os.Build
-import com.facebook.stetho.okhttp3.StethoInterceptor
+import android.util.Log
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.readystatesoftware.chuck.ChuckInterceptor
 import dagger.Module
 import dagger.Provides
-import io.github.alxiw.punkpaging.BuildConfig
 import io.github.alxiw.punkpaging.data.api.PunkApi
-import io.github.alxiw.punkpaging.di.annotations.ApplicationContext
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import okhttp3.logging.HttpLoggingInterceptor.Logger
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
@@ -24,7 +20,7 @@ import javax.inject.Singleton
 class NetworkModule {
 
     companion object {
-        private const val BASE_URL = "https://api.punkapi.com/v2/"
+        private const val BASE_URL = "https://punkapi.online/v3/"
     }
 
     @Provides
@@ -42,50 +38,35 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
-        return HttpLoggingInterceptor(HttpLoggingInterceptor.Logger.DEFAULT).also {
-            it.level = if (BuildConfig.DEBUG) {
-                HttpLoggingInterceptor.Level.BASIC
-            } else {
-                HttpLoggingInterceptor.Level.NONE
+        return HttpLoggingInterceptor(object : Logger {
+            override fun log(message: String) {
+                Log.d("HELLO", message)
             }
+        }).apply {
+            level = HttpLoggingInterceptor.Level.BASIC
         }
-    }
-
-    @Provides
-    @Singleton
-    fun provideStethoInterceptor(): StethoInterceptor {
-        return StethoInterceptor()
     }
 
     @Provides
     @Singleton
     fun provideOkHttpClient(
-            loggingInterceptor: HttpLoggingInterceptor,
-            stethoInterceptor: StethoInterceptor,
-            @ApplicationContext context: Context
+            loggingInterceptor: HttpLoggingInterceptor
     ): OkHttpClient {
         val builder = OkHttpClient.Builder()
-            .readTimeout(1, TimeUnit.SECONDS)
-            .connectTimeout(1, TimeUnit.SECONDS)
-        if (BuildConfig.DEBUG) {
-            builder.addInterceptor(loggingInterceptor)
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
-                builder.addInterceptor(ChuckInterceptor(context))
-            }
-            builder.addNetworkInterceptor(stethoInterceptor)
-        }
+            .readTimeout(10, TimeUnit.SECONDS)
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .addInterceptor(loggingInterceptor)
         return builder.build()
     }
 
     @Provides
     @Singleton
     fun provideRetrofit(
-            @Named(BASE_URL) baseUrl: String,
             client: OkHttpClient,
             gson: Gson
     ): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(baseUrl)
+            .baseUrl(BASE_URL)
             .client(client)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()

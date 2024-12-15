@@ -10,6 +10,7 @@ import io.github.alxiw.punkpaging.R
 import io.github.alxiw.punkpaging.data.model.Beer
 import io.github.alxiw.punkpaging.databinding.ItemBeerBinding
 import io.github.alxiw.punkpaging.util.DateFormatter.formatDate
+import io.github.alxiw.punkpaging.util.ImageUtil
 
 class BeersAdapter(
     private val onItemClicked: (Beer) -> Unit
@@ -47,7 +48,7 @@ class BeersAdapter(
             binding.itemDate.text = formatDate(beer.firstBrewed, true)
 
             Picasso.get()
-                .load(beer.imageUrl)
+                .load(ImageUtil.makeUrl(beer.image))
                 .fit().centerInside()
                 .into(binding.itemImage)
         }

@@ -20,7 +20,6 @@ class BeersRemoteMediator(
 ) : RemoteMediator<Int, Beer>() {
 
     override suspend fun load(loadType: LoadType, state: PagingState<Int, Beer>): MediatorResult {
-
         val page = when (loadType) {
             LoadType.REFRESH -> {
                 val remoteKey = getRemoteKeyClosestToCurrentPosition(state)
@@ -113,7 +112,7 @@ class BeersRemoteMediator(
     }
 
     private suspend fun getRemoteKeyClosestToCurrentPosition(
-            state: PagingState<Int, Beer>
+        state: PagingState<Int, Beer>
     ): RemoteKey? {
         // The paging library is trying to load data after the anchor position
         // Get the item closest to the anchor position

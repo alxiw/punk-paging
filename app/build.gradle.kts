@@ -1,16 +1,17 @@
 plugins {
-    id("com.android.application")
-    id("kotlin-android")
-    id("kotlin-kapt")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.google.ksp)
 }
 
 android {
-    compileSdk = 33
+    namespace = "io.github.alxiw.punkpaging"
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "io.github.alxiw.punkpaging"
         minSdk = 21
-        targetSdk = 33
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -37,63 +38,57 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-        kotlinOptions {
-            jvmTarget = JavaVersion.VERSION_1_8.toString()
-            kotlinOptions.freeCompilerArgs = listOf(*kotlinOptions.freeCompilerArgs.toTypedArray(), "-Xopt-in=kotlin.RequiresOptIn")
-        }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+
+    buildFeatures {
+        viewBinding = true
+        buildConfig = true
     }
 
     buildFeatures.viewBinding = true
-    buildFeatures.dataBinding = true
 }
 
 dependencies {
 
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}")
+    implementation(libs.kotlin.stdlib.jdk8)
 
     // di
-    implementation("com.google.dagger:dagger:${Versions.dagger}")
-    kapt("com.google.dagger:dagger-compiler:${Versions.dagger}")
+    implementation(libs.google.dagger)
+    ksp(libs.google.dagger.compiler)
 
     // sup
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("com.google.android.material:material:1.8.0")
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.material)
 
     // arch
-    implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
-    implementation("androidx.paging:paging-runtime-ktx:${Versions.paging}")
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.lifecycle.extensions)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.paging.runtime.ktx)
 
     // rx
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}")
+    implementation(libs.coroutines.android)
 
     // net
-    implementation("com.squareup.retrofit2:retrofit:${Versions.retrofit}")
-    implementation("com.squareup.retrofit2:converter-gson:${Versions.retrofit}")
-    implementation("com.squareup.retrofit2:retrofit-mock:${Versions.retrofit}")
-    implementation("com.squareup.picasso:picasso:2.71828")
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.picasso)
 
     // db
-    implementation("androidx.room:room-runtime:${Versions.room}")
-    implementation("androidx.room:room-ktx:${Versions.room}")
-    implementation("androidx.room:room-paging:${Versions.room}")
-    kapt("androidx.room:room-compiler:${Versions.room}")
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.paging)
 
     // util
-    implementation("com.jakewharton.threetenabp:threetenabp:1.3.1")
+    implementation(libs.threetenabp)
 
     // log
-    implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
-    implementation("com.jakewharton.timber:timber:5.0.1")
-
-    // debug
-    debugImplementation("com.facebook.stetho:stetho-okhttp3:1.6.0")
-    debugImplementation("com.readystatesoftware.chuck:library:1.1.0")
+    implementation(libs.logging.interceptor)
 }

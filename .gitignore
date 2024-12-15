@@ -8,3 +8,5 @@
 /app/build/
 /captures
 .externalNativeBuild
+.kotlin
+
