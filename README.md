@@ -1,14 +1,15 @@
 # Punk Paging
 
-This Android application serves as a wrapper for the [Punk API](https://github.com/alxiw/punkapi), leveraging the [MVVM](https://developer.android.com/jetpack/guide#recommended-app-arch) and [Repository](https://developer.android.com/jetpack/guide#recommended-app-arch) design patterns. It incorporates several Android Architecture Components, including [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel), [Room](https://developer.android.com/topic/libraries/architecture/room), and [Android Paging Library 3](https://developer.android.com/topic/libraries/architecture/paging/v3-overview), to optimize performance and user experience.
+This Android application serves as a wrapper for the [Punk API](https://github.com/alxiw/punkapi), leveraging the MVVM and Repository [design patterns](https://developer.android.com/jetpack/guide#recommended-app-arch). It incorporates several Android Architecture Components, including [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel), [Room](https://developer.android.com/topic/libraries/architecture/room), and [Paging Library v3](https://developer.android.com/topic/libraries/architecture/paging/v3-overview), to optimize performance and user experience.
 
-<img src="img/sample.jpg" alt="drawing" width="200"/>
+<img src="img/sample.png" alt="drawing" width="200"/>
 
 ## Key Features
-* *Data Fetching and Storage:* The app fetches beer data from the Punk API and stores it locally using a Room database.
-* *Search Functionality:* Users can search for beers by name, providing a seamless and efficient search experience.
-* *Optimized Performance:* The Android Paging Library 3 is employed to load data incrementally, ensuring smooth scrolling and efficient resource utilization.
-* *Clean Architecture:* The MVVM architecture promotes code separation and maintainability, while the Repository pattern abstracts data access and simplifies data operations.
+
+* **Data Fetching and Storage:** The app fetches beer data from the Punk API and stores it locally using a Room database.
+* **Search Functionality:** Users can search for beers by name, providing a seamless and efficient search experience.
+* **Optimized Performance:** The Android Paging Library 3 is employed to load data incrementally, ensuring smooth scrolling and efficient resource utilization.
+* **Clean Architecture:** The MVVM architecture promotes code separation and maintainability, while the Repository pattern abstracts data access and simplifies data operations.
 
 ## Dependencies
 
