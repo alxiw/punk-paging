@@ -10,7 +10,6 @@ import com.squareup.picasso.Picasso
 import dagger.Module
 import dagger.Provides
 import io.github.alxiw.punkpaging.data.api.NetworkHandler
-import io.github.alxiw.punkpaging.data.api.OfflineCacheInterceptor
 import io.github.alxiw.punkpaging.data.api.OnlineCacheInterceptor
 import io.github.alxiw.punkpaging.data.api.PunkApi
 import io.github.alxiw.punkpaging.di.annotations.ApplicationContext
@@ -91,7 +90,6 @@ class NetworkModule {
             .readTimeout(10, TimeUnit.SECONDS)
             .cache(cache)
             .addInterceptor(OnlineCacheInterceptor())
-            .addInterceptor(OfflineCacheInterceptor(networkHandler))
             .addInterceptor(loggingInterceptor)
         return builder.build()
     }

@@ -21,7 +21,7 @@ object DateFormatter {
         return try {
             YearMonth.parse(string, MONTH_YEAR_FORMATTER).run {
                 val style = if (short) TextStyle.SHORT else TextStyle.FULL
-                "${month.getDisplayName(style, Locale.US).toUpperCase(Locale.US)} $year"
+                "${month.getDisplayName(style, Locale.US).uppercase(Locale.US)} $year"
             }
         } catch (e: DateTimeParseException) {
             try {

@@ -13,7 +13,7 @@ This Android application serves as a wrapper for the [Punk API](https://github.c
 
 ## Dependencies
 
-* [Kotlin](https://github.com/JetBrains/kotlin) 2.0.21
+* [Kotlin](https://github.com/JetBrains/kotlin) 2.1.0
 * [Dagger](https://github.com/google/dagger) 2.52
 * [Retrofit](https://github.com/square/retrofit) 2.11.0
 * [Picasso](https://github.com/bumptech/glide) 2.71828

@@ -13,7 +13,7 @@ class OnlineCacheInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val response = chain.proceed(chain.request())
         val cacheControl = CacheControl.Builder()
-            .maxAge(CACHE_MAX_AGE, TimeUnit.MINUTES)
+            .maxAge(CACHE_MAX_AGE, TimeUnit.HOURS)
             .build()
 
         return response.newBuilder()
