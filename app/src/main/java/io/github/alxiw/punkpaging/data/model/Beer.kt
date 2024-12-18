@@ -41,7 +41,7 @@ data class Beer(
         val description: String,
         @ColumnInfo(name = "image")
         @SerializedName("image")
-        val image: String?,
+        val image: String,
         @ColumnInfo(name = "abv")
         @SerializedName("abv")
         val abv: Double
