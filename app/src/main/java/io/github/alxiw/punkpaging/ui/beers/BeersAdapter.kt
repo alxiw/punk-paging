@@ -5,19 +5,20 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
 import io.github.alxiw.punkpaging.R
 import io.github.alxiw.punkpaging.data.model.Beer
 import io.github.alxiw.punkpaging.databinding.ItemBeerBinding
+import io.github.alxiw.punkpaging.ui.ImageLoader
+import io.github.alxiw.punkpaging.ui.load
 import io.github.alxiw.punkpaging.util.DateFormatter.formatDate
-import io.github.alxiw.punkpaging.util.ImageUtil
 
 class BeersAdapter(
-    private val onItemClicked: (Beer) -> Unit
+    private val onItemClicked: (Beer) -> Unit,
+    private val imageLoader: ImageLoader
 ) : PagingDataAdapter<Beer, BeersAdapter.BeersViewHolder>(BEER_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BeersViewHolder {
-        return BeersViewHolder.create(parent, onItemClicked)
+        return BeersViewHolder.create(parent, onItemClicked, imageLoader)
     }
 
     override fun onBindViewHolder(holder: BeersViewHolder, position: Int) {
@@ -26,7 +27,8 @@ class BeersAdapter(
 
     class BeersViewHolder(
         private val binding: ItemBeerBinding,
-        private val onItemClicked: (Beer) -> Unit
+        private val onItemClicked: (Beer) -> Unit,
+        private val imageLoader: ImageLoader
     ) : RecyclerView.ViewHolder(binding.root) {
 
         private var beer: Beer? = null
@@ -46,21 +48,17 @@ class BeersAdapter(
             binding.itemTagline.text = beer.tagline
             binding.itemAbv.text = String.format("%s%%", beer.abv)
             binding.itemDate.text = formatDate(beer.firstBrewed, true)
-
-            Picasso.get()
-                .load(ImageUtil.makeUrl(beer.image))
-                .fit().centerInside()
-                .into(binding.itemImage)
+            binding.itemImage.load(imageLoader, beer.image)
         }
 
         companion object {
-            fun create(parent: ViewGroup, onClickAction: (Beer) -> Unit): BeersViewHolder {
+            fun create(parent: ViewGroup, onClickAction: (Beer) -> Unit, imageLoader: ImageLoader): BeersViewHolder {
                 val view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.item_beer,  parent,false)
 
                 val binding = ItemBeerBinding.bind(view)
 
-                return BeersViewHolder(binding, onClickAction)
+                return BeersViewHolder(binding, onClickAction, imageLoader)
             }
         }
     }

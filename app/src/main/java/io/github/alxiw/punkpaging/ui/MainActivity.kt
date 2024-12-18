@@ -38,6 +38,9 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var searchManager: SearchManager
 
+    @Inject
+    lateinit var imageLoader: ImageLoader
+
     // Sparse arrays are cheaper memory-wise, see - https://stackoverflow.com/a/31413003/1271136
     private val componentsCache: LongSparseArray<ConfigPersistentComponent> = LongSparseArray()
 
@@ -70,7 +73,7 @@ class MainActivity : AppCompatActivity() {
             onQueryChanged = viewModel.accept
         )
 
-        val beersAdapter = BeersAdapter(::onItemClicked)
+        val beersAdapter = BeersAdapter(::onItemClicked, imageLoader)
         binding.beersRecycler.adapter = beersAdapter.withLoadStateFooter(
             footer = BeersLoadStateAdapter { beersAdapter.retry() }
         )
