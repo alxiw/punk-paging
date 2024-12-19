@@ -6,6 +6,7 @@
 .DS_Store
 /build
 /app/build/
+/simplesearchview/build/
 /captures
 .externalNativeBuild
 .kotlin

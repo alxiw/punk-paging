@@ -1,7 +1,6 @@
 package io.github.alxiw.punkpaging.di.component
 
 import android.app.Application
-import android.app.SearchManager
 import android.content.Context
 import dagger.Component
 import io.github.alxiw.punkpaging.data.BeersRepository
@@ -16,7 +15,6 @@ interface AppComponent {
     @ApplicationContext
     fun context(): Context
     fun application(): Application
-    fun searchManager(): SearchManager
     fun beersRepository(): BeersRepository
     fun imageLoader(): ImageLoader
 }

@@ -1,7 +1,6 @@
 package io.github.alxiw.punkpaging.di.module
 
 import android.app.Application
-import android.app.SearchManager
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.lifecycle.ViewModelProvider
@@ -31,12 +30,6 @@ class AppModule(private val app: Application) {
     @ApplicationContext
     fun provideContext(): Context {
         return app
-    }
-
-    @Provides
-    @Singleton
-    fun provideSearchManager(@ApplicationContext context: Context): SearchManager {
-        return context.getSystemService(Context.SEARCH_SERVICE) as SearchManager
     }
 
     @Provides

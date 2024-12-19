@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="default_textColor">#DE000000</color>
+    <color name="default_textColorHint">#8A000000</color>
+    <dimen name="search_icon_padding">12dp</dimen>
+    <string name="action_back">Back</string>
+    <string name="action_clear_search">Clear search</string>
+    <string name="action_voice_search">Voice search</string>
+    <!--<string name="search_hint">Search</string>-->
+    <style name="SearchViewIcon">
+        <!--<item name="android:background">?android:attr/selectableItemBackground</item>-->
+        <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
+        <item name="android:paddingLeft">@dimen/search_icon_padding</item>
+        <item name="android:paddingRight">@dimen/search_icon_padding</item>
+        <item name="android:scaleType">center</item>
+        <item name="android:alpha">0.54</item>
+    </style>
+    <declare-styleable name="SimpleSearchView">
+        <attr format="float" name="backIconAlpha"/>
+        <attr format="float" name="iconsAlpha"/>
+
+        <attr format="color" name="backIconTint"/>
+        <attr format="color" name="iconsTint"/>
+
+        <attr format="color" name="cursorColor"/>
+        <attr format="color" name="hintColor"/>
+
+        <attr format="reference|color" name="searchBackground"/>
+
+        <attr format="reference" name="searchBackIcon"/>
+        <attr format="reference" name="searchClearIcon"/>
+        <attr format="reference" name="searchVoiceIcon"/>
+
+        <attr format="boolean" name="voiceSearch"/>
+
+        <attr format="string" name="voiceSearchPrompt"/>
+
+        <attr format="string" name="android:hint"/>
+        <attr name="android:inputType"/>
+        <attr format="color" name="android:textColor"/>
+
+        <attr format="enum" name="type">
+            <enum name="bar" value="0"/>
+            <enum name="card" value="1"/>
+        </attr>
+    </declare-styleable>
+</resources>

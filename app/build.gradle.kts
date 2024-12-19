@@ -42,11 +42,6 @@ android {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 
-    buildFeatures {
-        viewBinding = true
-        buildConfig = true
-    }
-
     buildFeatures.viewBinding = true
 }
 
@@ -54,6 +49,8 @@ dependencies {
 
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation(libs.kotlin.stdlib.jdk8)
+
+    implementation(project(":simplesearchview"))
 
     // di
     implementation(libs.google.dagger)

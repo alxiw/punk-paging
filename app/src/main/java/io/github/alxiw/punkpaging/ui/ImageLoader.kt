@@ -6,6 +6,7 @@ import com.squareup.picasso.Picasso
 class ImageLoader(private val picasso: Picasso, private val baseUrl: String) {
 
     fun loadImage(target: ImageView, imageName: String) {
+        picasso.setIndicatorsEnabled(true)
         picasso
             .load("$baseUrl${imageName}")
             .fit().centerInside()
