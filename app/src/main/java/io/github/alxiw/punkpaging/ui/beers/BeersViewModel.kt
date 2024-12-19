@@ -1,8 +1,6 @@
 package io.github.alxiw.punkpaging.ui.beers
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
@@ -14,10 +12,8 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class BeersViewModel(
-    private val repository: BeersRepository,
-    application: Application,
-    private val savedStateHandle: SavedStateHandle
-) : AndroidViewModel(application) {
+    private val repository: BeersRepository
+) : ViewModel() {
 
     val state: StateFlow<UiState>
     val pagingDataFlow: Flow<PagingData<Beer>>
@@ -25,13 +21,11 @@ class BeersViewModel(
     val accept: (UiAction) -> Unit
 
     init {
-        val initialQuery: String = savedStateHandle[LAST_SEARCH_QUERY] ?: DEFAULT_QUERY
-        val lastQueryScrolled: String = savedStateHandle[LAST_QUERY_SCROLLED] ?: DEFAULT_QUERY
         val actionStateFlow = MutableSharedFlow<UiAction>()
         val searches = actionStateFlow
             .filterIsInstance<UiAction.Search>()
             .distinctUntilChanged()
-            .onStart { emit(UiAction.Search(query = initialQuery)) }
+            .onStart { emit(UiAction.Search(query = DEFAULT_QUERY)) }
         val queriesScrolled = actionStateFlow
             .filterIsInstance<UiAction.Scroll>()
             .distinctUntilChanged()
@@ -42,7 +36,7 @@ class BeersViewModel(
                 started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000),
                 replay = 1
             )
-            .onStart { emit(UiAction.Scroll(currentQuery = lastQueryScrolled)) }
+            .onStart { emit(UiAction.Scroll(currentQuery = DEFAULT_QUERY)) }
 
         pagingDataFlow = searches
             .flatMapLatest { searchBeers(query= it.query) }
@@ -71,12 +65,6 @@ class BeersViewModel(
         }
     }
 
-    override fun onCleared() {
-        savedStateHandle[LAST_SEARCH_QUERY] = state.value.query
-        savedStateHandle[LAST_QUERY_SCROLLED] = state.value.lastQueryScrolled
-        super.onCleared()
-    }
-
     private fun searchBeers(query: String): Flow<PagingData<Beer>> = repository.fetchBeers(query)
 }
 
@@ -91,6 +79,4 @@ data class UiState(
     val hasNotScrolledForCurrentSearch: Boolean = false
 )
 
-private const val LAST_QUERY_SCROLLED: String = "last_query_scrolled"
-private const val LAST_SEARCH_QUERY: String = "last_search_query"
 private const val DEFAULT_QUERY = ""

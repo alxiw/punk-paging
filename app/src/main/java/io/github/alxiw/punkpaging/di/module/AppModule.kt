@@ -4,14 +4,11 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.lifecycle.ViewModelProvider
-import androidx.savedstate.SavedStateRegistryOwner
 import dagger.Module
 import dagger.Provides
-import io.github.alxiw.punkpaging.App
 import io.github.alxiw.punkpaging.data.BeersRepository
 import io.github.alxiw.punkpaging.data.api.PunkApi
 import io.github.alxiw.punkpaging.data.db.PunkDatabase
-import io.github.alxiw.punkpaging.di.annotations.ActivityContext
 import io.github.alxiw.punkpaging.di.annotations.ApplicationContext
 import io.github.alxiw.punkpaging.ui.ViewModelFactory
 import javax.inject.Singleton
@@ -45,10 +42,8 @@ class AppModule(private val app: Application) {
     @Provides
     @Singleton
     fun provideViewModelFactory(
-            repository: BeersRepository,
-            @ApplicationContext context: Context,
-            @ActivityContext activity: SavedStateRegistryOwner
+        repository: BeersRepository
     ): ViewModelProvider.Factory {
-        return ViewModelFactory(repository, App[context] as Application, activity)
+        return ViewModelFactory(repository)
     }
 }
