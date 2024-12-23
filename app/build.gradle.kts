@@ -89,4 +89,11 @@ dependencies {
 
     // log
     implementation(libs.logging.interceptor)
+
+    // unit tests
+    testImplementation(libs.junit)
+
+    // ui tests
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
 }
